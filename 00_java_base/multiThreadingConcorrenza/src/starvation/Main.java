@@ -1,9 +1,11 @@
 package starvation;
 
+import java.util.concurrent.locks.ReentrantLock;
+
 public class Main {
 	
-	//Usiamo un lock
-	private static Object lock = new Object();
+	//Usiamo un Rlock passando true al costruttore la politica di servizio sui waiting threads è FIFO
+	private static ReentrantLock lock = new ReentrantLock(true);
 
 	public static void main(String[] args) {
 		Thread t1 = new Thread(new Worker("Priority 10"));
@@ -40,8 +42,13 @@ public class Main {
 		@Override
 		public void run() {
 			for(int i = 0; i < 100; ++i){
-				synchronized(Main.lock){
+				
+				lock.lock();
+				try{
 					System.out.format("%s: RunCount= %d\n", this.name, this.runCount++);
+				}
+				finally{
+					lock.unlock();
 				}
 			}
 		}
