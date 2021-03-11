@@ -6,11 +6,11 @@ class Philosopher extends Thread {
     private Fork left, right;
     private Table table;
 
-    Philosopher(int id, Fork left, Fork right, Table table) {
+    Philosopher(int id, Fork left, Fork right) {
         this.identity = id;
         this.left = left;
         this.right = right;
-        this.table = table;
+        //this.table = table;
     }
     public void run() {
         while (!stopRequested) {
