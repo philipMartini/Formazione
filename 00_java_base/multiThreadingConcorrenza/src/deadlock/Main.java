@@ -12,7 +12,7 @@ public class Main {
 	
 	/*Questa versione provoca Deadlock immediato, T1 acquisce il primo lock e va in sleep, 
 	 * T2 acquisisce il secondo lock e va in sleep, in questo contesto T1 aspetta lock2 che possiede T2 e T2 aspetta
-	 * lock1 che T1 possiede => Deadlock*/
+	 * lock1 che T1 possiede => Deadlock, Mettendo lo stesso ordine di acquisizione di lock il deadloc viene evitato*/
 	
 	private static class Thread1 extends Thread{
 		
@@ -42,8 +42,8 @@ public class Main {
 		
 		@Override
 		public void run(){
-			synchronized(lock2){
-				System.out.println("Thread 2 has Lock2");
+			synchronized(lock1){
+				System.out.println("Thread 2 has Lock1");
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
@@ -51,14 +51,14 @@ public class Main {
 					e.printStackTrace();
 				}
 				
-				System.out.println("Thread 2 waiting for lock1");
-				synchronized(lock1){
-					System.out.println("Thread 2 has Lock1");
+				System.out.println("Thread 2 waiting for lock2");
+				synchronized(lock2){
+					System.out.println("Thread 2 has Lock1 And Lock2");
 				}
 				
-				System.out.println("Thread 2 released Lock1");
+				System.out.println("Thread 2 released Lock2");
 			}
-			System.out.println("Thread 1 releasing lock2...Exiting...");
+			System.out.println("Thread 2 releasing lock1...Exiting...");
 		}
 		
 	}
