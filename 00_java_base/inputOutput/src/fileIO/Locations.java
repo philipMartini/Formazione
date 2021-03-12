@@ -1,7 +1,15 @@
 package fileIO;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -17,63 +25,57 @@ public class Locations implements Map<Integer, Location>{
 	
 	//Uso static init block (Eseguito PRIMA del costruttore)
 	static{
-		Locations.locations = new HashMap<>();
-		try(BufferedReader r1 = new BufferedReader(new FileReader("locations_big.txt"))){
-			//scanner = new Scanner(new FileReader("locations_big.txt"));
-			//scanner.useDelimiter(",");
-			String in;
-			String[] data;
-			while((in = r1.readLine()) != null){
-				data = in.split(",");
-				int loc = Integer.parseInt(data[0]);
-				String description = data[1];
-				Map<String, Integer> tempExit = new HashMap<>();
-				locations.put(loc, new Location(loc, description, tempExit));
+		try(DataInputStream locFile = new DataInputStream( new BufferedInputStream( 
+				new FileInputStream("locations.dat")))){
+			//Alla fine della lettura del file binario viene lanciata una EOFException
+			boolean eof = false;
+			while(!eof){
+				try{
+					Map<String, Integer> exits = new HashMap<>();
+					int locId = locFile.readInt();
+					String description = locFile.readUTF();
+					int numExits = locFile.readInt();
+					for(int i = 0; i < numExits; ++i){
+						String direction = locFile.readUTF();
+						int destination = locFile.readInt();
+						exits.put(direction, destination);
+					}
+					locations.put(locId, new Location(locId, description, exits));
+					
+				}catch(EOFException e){
+					System.out.println("EOF Finished readfile");
+					eof  = true;
+					//e.printStackTrace();
+				}
+			
 			}
 			
-		}
-		catch(IOException e){}
-		
-		//Usando BufferedReader e try-with-resource
-		
-		
-		
-		try(BufferedReader dirFile = new BufferedReader( new FileReader( "directions_big.txt"))){
-			String input;
-			while((input = dirFile.readLine()) != null){
-				
-				String[] data = input.split(",");
-				int loc = Integer.parseInt(data[0]);
-				String direction = data[1];
-				int destination = Integer.parseInt(data[2]);
-				Location location = locations.get(loc);
-				location.addExit(direction, destination);
-			}
-			
-		}catch(IOException e){
+		} 
+		catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		
 		}
 	
 	
 	public static void main(String[] args)throws IOException {
 		
-		//Usando try-with-resource non è necessario usare finally perchè
-		// questo costrutto si assicura che il file venga chiuso prima di uscire dallo scope
-		try(BufferedWriter  locFile = new BufferedWriter(new FileWriter("locations.txt"));
-				BufferedWriter dirFile = new BufferedWriter(new FileWriter("directions.txt"))){
-			for(Location location: Locations.locations.values()){
-				locFile.write(location.getLocationID() + "," + location.getDescription() + "\n");
+		try(DataOutputStream locFile = new DataOutputStream( 
+				new BufferedOutputStream( new FileOutputStream("locations.dat")));){
+			for(Location location : locations.values()){
+				locFile.writeInt(location.getLocationID());
+				locFile.writeUTF(location.getDescription());
+				locFile.writeInt(location.getExits().size());
 				for(String direction : location.getExits().keySet()){
-					//Non scrivere le opzioni di quitting
 					if(!direction.equalsIgnoreCase("Q"))
-						dirFile.write(location.getLocationID() + "," + direction + "," + location.getExits().get(direction) + "\n");
+						locFile.writeUTF(direction);
 				}
 			}
-			
-		}
+		}catch(IOException e){}
 	}
 	
 	@Override
