@@ -13,6 +13,9 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InvalidClassException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,22 +28,17 @@ public class Locations implements Map<Integer, Location>{
 	
 	//Uso static init block (Eseguito PRIMA del costruttore)
 	static{
-		try(DataInputStream locFile = new DataInputStream( new BufferedInputStream( 
+		Locations.locations = new HashMap<>();
+		
+		try(ObjectInputStream locFile = new ObjectInputStream( new BufferedInputStream( 
 				new FileInputStream("locations.dat")))){
 			//Alla fine della lettura del file binario viene lanciata una EOFException
 			boolean eof = false;
 			while(!eof){
 				try{
-					Map<String, Integer> exits = new HashMap<>();
-					int locId = locFile.readInt();
-					String description = locFile.readUTF();
-					int numExits = locFile.readInt();
-					for(int i = 0; i < numExits; ++i){
-						String direction = locFile.readUTF();
-						int destination = locFile.readInt();
-						exits.put(direction, destination);
-					}
-					locations.put(locId, new Location(locId, description, exits));
+					Location location = (Location) locFile.readObject();
+					System.out.println("Read Location: " + location.getLocationID() + " " + location.getDescription());
+					locations.put(location.getLocationID(), location);
 					
 				}catch(EOFException e){
 					System.out.println("EOF Finished readfile");
@@ -50,8 +48,13 @@ public class Locations implements Map<Integer, Location>{
 			
 			}
 			
+		}
+		catch (InvalidClassException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} 
-		catch (FileNotFoundException e) {
+		 
+		catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -59,22 +62,17 @@ public class Locations implements Map<Integer, Location>{
 			e.printStackTrace();
 		}
 		
-		}
+		}//END STATIC
 	
 	
 	public static void main(String[] args)throws IOException {
 		
-		try(DataOutputStream locFile = new DataOutputStream( 
+		try(ObjectOutputStream locFile = new ObjectOutputStream( 
 				new BufferedOutputStream( new FileOutputStream("locations.dat")));){
 			for(Location location : locations.values()){
-				locFile.writeInt(location.getLocationID());
-				locFile.writeUTF(location.getDescription());
-				locFile.writeInt(location.getExits().size());
-				for(String direction : location.getExits().keySet()){
-					if(!direction.equalsIgnoreCase("Q"))
-						locFile.writeUTF(direction);
-				}
+				locFile.writeObject(location);
 			}
+			
 		}catch(IOException e){}
 	}
 	
