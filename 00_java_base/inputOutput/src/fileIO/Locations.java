@@ -1,5 +1,7 @@
 package fileIO;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -16,77 +18,59 @@ public class Locations implements Map<Integer, Location>{
 	//Uso static init block (Eseguito PRIMA del costruttore)
 	static{
 		Locations.locations = new HashMap<>();
-		Scanner scanner = null;
-		try{
-			scanner = new Scanner(new FileReader("locations.txt"));
-			scanner.useDelimiter(",");
-			while(scanner.hasNextLine()){
-				int loc = scanner.nextInt();
-				scanner.skip(scanner.delimiter());
-				String description = scanner.nextLine();
+		try(BufferedReader r1 = new BufferedReader(new FileReader("locations_big.txt"))){
+			//scanner = new Scanner(new FileReader("locations_big.txt"));
+			//scanner.useDelimiter(",");
+			String in;
+			String[] data;
+			while((in = r1.readLine()) != null){
+				data = in.split(",");
+				int loc = Integer.parseInt(data[0]);
+				String description = data[1];
 				Map<String, Integer> tempExit = new HashMap<>();
 				locations.put(loc, new Location(loc, description, tempExit));
 			}
 			
 		}
 		catch(IOException e){}
-		finally{
-			if(scanner != null)
-				//Qui viene chiuso il Readeble stream
-				scanner.close();
+		
+		//Usando BufferedReader e try-with-resource
+		
+		
+		
+		try(BufferedReader dirFile = new BufferedReader( new FileReader( "directions_big.txt"))){
+			String input;
+			while((input = dirFile.readLine()) != null){
+				
+				String[] data = input.split(",");
+				int loc = Integer.parseInt(data[0]);
+				String direction = data[1];
+				int destination = Integer.parseInt(data[2]);
+				Location location = locations.get(loc);
+				location.addExit(direction, destination);
+			}
+			
+		}catch(IOException e){
+			e.printStackTrace();
 		}
 		
-		/*Map<String, Integer> tempExit = new HashMap<String, Integer>();
-        locations.put(0, new Location(0, "You are sitting in front of a computer learning Java",null));
-
-        tempExit = new HashMap<String, Integer>();
-        tempExit.put("W", 2);
-        tempExit.put("E", 3);
-        tempExit.put("S", 4);
-        tempExit.put("N", 5);
-        locations.put(1, new Location(1, "You are standing at the end of a road before a small brick building",tempExit));
-
-        tempExit = new HashMap<String, Integer>();
-        tempExit.put("N", 5);
-        locations.put(2, new Location(2, "You are at the top of a hill",tempExit));
-
-        tempExit = new HashMap<String, Integer>();
-        tempExit.put("W", 1);
-        locations.put(3, new Location(3, "You are inside a building, a well house for a small spring",tempExit));
-
-        tempExit = new HashMap<String, Integer>();
-        tempExit.put("N", 1);
-        tempExit.put("W", 2);
-        locations.put(4, new Location(4, "You are in a valley beside a stream",tempExit));
-
-        tempExit = new HashMap<String, Integer>();
-        tempExit.put("S", 1);
-        tempExit.put("W", 2);
-        locations.put(5, new Location(5, "You are in the forest",tempExit));*/
-	}
+		
+		}
+	
 	
 	public static void main(String[] args)throws IOException {
-		/*FileWriter locFile = null;
-		try{
-			locFile = new FileWriter("locations.txt");
-			for(Location location: Locations.locations.values())
-				locFile.write(location.getLocationID() + ", " + location.getDescription() + "\n");
-			//locFile.close(); 
-			}
-		finally{
-			
-			if(locFile != null)
-				locFile.close();
-		}*/
 		
 		//Usando try-with-resource non è necessario usare finally perchè
 		// questo costrutto si assicura che il file venga chiuso prima di uscire dallo scope
-		try(FileWriter locFile = new FileWriter("locations.txt");
-				FileWriter dirFile = new FileWriter("directions.txt")){
+		try(BufferedWriter  locFile = new BufferedWriter(new FileWriter("locations.txt"));
+				BufferedWriter dirFile = new BufferedWriter(new FileWriter("directions.txt"))){
 			for(Location location: Locations.locations.values()){
 				locFile.write(location.getLocationID() + "," + location.getDescription() + "\n");
-				for(String direction : location.getExits().keySet())
-					dirFile.write(location.getLocationID() + "," + direction + "," + location.getExits().get(direction) + "\n");
+				for(String direction : location.getExits().keySet()){
+					//Non scrivere le opzioni di quitting
+					if(!direction.equalsIgnoreCase("Q"))
+						dirFile.write(location.getLocationID() + "," + direction + "," + location.getExits().get(direction) + "\n");
+				}
 			}
 			
 		}
