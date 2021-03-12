@@ -1,0 +1,3 @@
+P2A08 Volo [aeroportoPartenza=MXP, aeroportoArrivo=SFO, getNumeroTratte()=3, getDurataInMinuti()=745]
+P2A03 Volo [aeroportoPartenza=FCO, aeroportoArrivo=SFO, getNumeroTratte()=1, getDurataInMinuti()=665]
+P2A01 Volo [aeroportoPartenza=MXP, aeroportoArrivo=LIN, getNumeroTratte()=1, getDurataInMinuti()=20]
