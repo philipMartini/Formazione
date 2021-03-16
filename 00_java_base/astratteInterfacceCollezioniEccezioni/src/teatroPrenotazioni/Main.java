@@ -1,5 +1,9 @@
 package teatroPrenotazioni;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class Main {
 
 	public static void main(String[] args) {
@@ -17,6 +21,12 @@ public class Main {
 		}else{
 			System.out.println("Sorry Seat taken");
 		}
+		
+		List<Theatre.Seat> priceSeats = new ArrayList<>(t1.getSeats());
+		priceSeats.add(t1.new Seat("B00", 13.00));
+		priceSeats.add(t1.new Seat("A00", 13.00));
+		
+		Collections.sort(priceSeats, Theatre.PRICE_ORDER);
 	}
 
 }
