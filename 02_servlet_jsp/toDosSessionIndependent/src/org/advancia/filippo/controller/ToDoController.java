@@ -18,8 +18,12 @@ import org.advancia.filippo.model.ToDo;
  */
 @WebServlet("/toDos")
 public class ToDoController extends HttpServlet {
+	//In questo caso non voglio che tutte le sessioni condividano la stessa collezione
+	//Ma che la lista dei todos sia indipendente per ogni sessione
+	//L'idea è salvare l'intera collezione nello scope di sessione
+	//E recuperarlo prima di ogni operazione e settare l'attributo aggiornato
+	//private Map<String, ToDo> toDos;
 	private static final long serialVersionUID = 1L;
-	private Map<String, ToDo> toDos;
 	private static final String create = "addToDo";
 	private static final String delete = "deleteToDo";
 	private static final String update = "updateToDo";
@@ -29,23 +33,29 @@ public class ToDoController extends HttpServlet {
      */
     public ToDoController() {
         super();
-        this.toDos = new HashMap<>();
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		//L'attributo viene settato nella jsp toDOsHome	
+		Map<String, ToDo> toDos = (Map<String, ToDo>) request.getSession().getAttribute("toDos");
 		//Se la GET è per modificare un particolare ToDO
 		if(request.getParameter("id") != null){
-			generateToDoProfilePage(request, response);
+			generateToDoProfilePage(toDos, request, response);
 		}
 		
 		else{
 			//Altrimenti rimandami alla lista aggiornata dei ToDos
-		//Setto l'attributo di sessione per i todos
-			request.getSession().setAttribute("toDos", this.toDos.values());
+		//Setto l'attributo di sessione per i todos (NON DOVREBBE ESSERE ESEGUITO)
+			if(request.getSession().getAttribute("toDos") == null){
+				System.out.println("CREATING TODOS");
+				toDos = new HashMap<>();
+				//Conservo l'intera collezione nella sessione
+				request.getSession().setAttribute("toDos", toDos);
+			}
+			//request.getSession().setAttribute("toDos", this.toDos.values());
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/views/toDosHome.jsp");
 			dispatcher.forward(request, response);
 		}
@@ -57,30 +67,32 @@ public class ToDoController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		Map<String, ToDo> toDos = (Map<String, ToDo>) request.getSession().getAttribute("toDos");
 		//Attraverso i query parameters distinguiamo la create, update e delete
 		if(request.getParameter(create) != null){
 			System.out.println(request.getParameter(create));
-			createToDo(request, response);	
+			createToDo(toDos, request, response);	
 		}
 		
 		else if(request.getParameter(delete) != null){
-			deleteToDo(request, response);
+			deleteToDo(toDos, request, response);
 		}
 		
 		else if(request.getParameter(update) != null){
-			updateToDo(request, response);
+			updateToDo(toDos, request, response);
 		}
 	}
 
-	private void updateToDo(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+	private void updateToDo(Map<String, ToDo> toDos, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		String toDoId = request.getParameter(update);
 		System.out.println("UPDATE: " + toDoId);
-		if(this.toDos.containsKey(toDoId)){
+		if(toDos.containsKey(toDoId)){
 			try {
-				this.toDos.get(toDoId).setTitle(request.getParameter("title"));
-				this.toDos.get(toDoId).setText(request.getParameter("text"));
+				toDos.get(toDoId).setTitle(request.getParameter("title"));
+				toDos.get(toDoId).setText(request.getParameter("text"));
 				//Aggiorna i todos
-				request.getSession().setAttribute("toDos", this.toDos.values());
+				request.getSession().setAttribute("toDos", toDos);
 				//Manda il redirect alla home
 				response.sendRedirect("views/toDosHome.jsp");
 			} catch (InvalidToDoException e) {
@@ -92,25 +104,26 @@ public class ToDoController extends HttpServlet {
 		}
 	}
 
-	private void deleteToDo(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	private void deleteToDo(Map<String, ToDo> toDos, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String toDoId = request.getParameter(delete);
-		if(this.toDos.containsKey(toDoId)){
-			this.toDos.remove(toDoId);
+		if(toDos.containsKey(toDoId)){
+			toDos.remove(toDoId);
 		}
 		//Aggiorna i todos
-		request.getSession().setAttribute("toDos", this.toDos.values());
+		request.getSession().setAttribute("toDos", toDos);
 		//Manda il redirect alla home
 		response.sendRedirect("views/toDosHome.jsp");
 	}
 
-	private void createToDo(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+	private void createToDo(Map<String, ToDo> toDos, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		String title = request.getParameter("title");
 		String text = request.getParameter("text");
+		System.out.println("CREATE: " + toDos);
 		try{
 			ToDo toDo = new ToDo(title, text);
-			this.toDos.put(toDo.getUuid().toString(), toDo);
+			toDos.put(toDo.getUuid().toString(), toDo);
 			//Reindirizza alla home dei todos
-			request.getSession().setAttribute("toDos", this.toDos.values());
+			request.getSession().setAttribute("toDos", toDos);
 			response.sendRedirect("views/toDosHome.jsp");
 			
 		}catch(InvalidToDoException e){
@@ -120,10 +133,11 @@ public class ToDoController extends HttpServlet {
 		}
 	}
 	
-	private void generateToDoProfilePage(HttpServletRequest request, HttpServletResponse response)
+	private void generateToDoProfilePage(Map<String, ToDo> toDos, HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		ToDo toDo = this.toDos.get(request.getParameter("id"));
-		//System.out.println("TODO " + toDo);
+		System.out.println("Generate Profile!");
+		System.out.println("TODOS " + toDos);
+		ToDo toDo = toDos.get(request.getParameter("id"));
 		request.setAttribute("toDo", toDo); //Questo l'ho inserito per poter usare jspUseBean
 		request.setAttribute("title", toDo.getTitle());
 		request.setAttribute("text", toDo.getText());
