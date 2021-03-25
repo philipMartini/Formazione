@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
+import org.advancia.filippo.model.CoffeeBean;
 import org.advancia.filippo.model.CoffeeDataBean;
 
 /**
@@ -42,12 +43,16 @@ public class CoffeeServlet extends HttpServlet {
 	        this.ds = (DataSource) envContext.lookup("jdbc/dbCaffe");
 	        this.connection = ds.getConnection();
 	        //this.statement = this.connection.createStatement();
+	        this.coffeeData = new CoffeeDataBean(this.connection);
 		}
         catch (NamingException ex) {
             System.err.println(ex);
         } catch (SQLException ex) {
             System.err.println(ex);
         }
+		catch(Exception e){
+			System.err.println(e);
+		}
 	}
        
     /**
@@ -56,12 +61,7 @@ public class CoffeeServlet extends HttpServlet {
     public CoffeeServlet() {
         super();
         System.out.println("Servlet Constructor!");
-        try {
-			this.coffeeData = new CoffeeDataBean(this.connection);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        
         
         // TODO Auto-generated constructor stub
     }
@@ -88,12 +88,12 @@ public class CoffeeServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String action = request.getParameter("action");
-		System.out.println("ACTION: " + action);
+		
 		String coffeeName = request.getParameter("coffeeName");
 		System.out.println("COffee Name: " + coffeeName);
 		
-		if(action.equals("delete")){
+		if(request.getParameter("delete") != null){
+			System.out.println("DELETE");
 			try {
 				
 				//this.coffeeData = new CoffeeDataBean(this.connection);
@@ -106,6 +106,46 @@ public class CoffeeServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
+		
+		else if(request.getParameter("add") != null){
+			Double coffeePrice = Double.parseDouble(request.getParameter("coffeePrice"));
+			int coffeeQuantity = Integer.parseInt(request.getParameter("coffeeQuantity"));
+			int supplier_id = Integer.parseInt(request.getParameter("supplier"));
+			try {
+				
+				this.coffeeData.addCoffee(new CoffeeBean(coffeeName, coffeePrice, coffeeQuantity), supplier_id);
+				request.setAttribute("coffeeData", this.coffeeData);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("views/coffeesListView.jsp");
+				dispatcher.forward(request, response);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		
+		else if(request.getParameter("update") != null){
+			Double coffeePrice = Double.parseDouble(request.getParameter("coffeePrice"));
+			int coffeeQuantity = Integer.parseInt(request.getParameter("coffeeQuantity"));
+			try {
+				
+				//In questo caso particolare dato che COF_NAME è PK è necessario recuperare 
+				//il vecchio nome per poter effettuare la UPDATE
+				CoffeeDataBean oldData = (CoffeeDataBean) request.getSession().getAttribute("coffeeData");
+				System.out.println("OLD DATA: " + oldData);
+				String oldCoffeeName = oldData.getCoffeesList().get(Integer.parseInt(request.getParameter("index"))).getCoffeeName();
+				System.out.println("OLD COFFEE NAME: " + oldCoffeeName);
+				this.coffeeData.updateCoffee(oldCoffeeName, new CoffeeBean(coffeeName, coffeePrice, coffeeQuantity));
+				request.setAttribute("coffeeData", this.coffeeData);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("views/coffeesListView.jsp");
+				dispatcher.forward(request, response);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			catch(Exception e )
+			{	e.printStackTrace();}		
+			}
 	}
 
 }
