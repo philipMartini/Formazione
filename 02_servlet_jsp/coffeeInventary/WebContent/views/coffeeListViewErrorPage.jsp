@@ -53,7 +53,7 @@
       <%-- end scriptlet to insert fixed template data --%>
 
          <%-- continue error message output --%>
-         occurred while interacting with the guestbook database. 
+         occurred while interacting with the dbCaffe database. 
       </p>
       <p class = "bigRed">
          The error message was:<br />

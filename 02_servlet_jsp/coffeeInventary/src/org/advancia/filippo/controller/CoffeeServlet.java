@@ -35,6 +35,11 @@ public class CoffeeServlet extends HttpServlet {
 	
 	
 	//Override di init
+	//Questo metodo di connessione al Db (al di la del Datasource) è definito DEDICATED CONNECTION
+	//è costoso perchè ogni servlet ha una connessione sempre aperta con il db che viene chiusa solo
+	//all'invocazione del destroy da parte del container
+	//Inoltre quando diversi utenti invocano i vari doXXX essendo i metodi di COnnection sincronizzati
+	//Ogni utente dovrà attendere il proprio turno!!!!!
 	@Override
 	public void init(){
 		try{
@@ -133,10 +138,14 @@ public class CoffeeServlet extends HttpServlet {
 				//il vecchio nome per poter effettuare la UPDATE
 				CoffeeDataBean oldData = (CoffeeDataBean) request.getSession().getAttribute("coffeeData");
 				System.out.println("OLD DATA: " + oldData);
+				//Recupera l'index del caffe da modificare e ottieni il nome 
 				String oldCoffeeName = oldData.getCoffeesList().get(Integer.parseInt(request.getParameter("index"))).getCoffeeName();
 				System.out.println("OLD COFFEE NAME: " + oldCoffeeName);
+				//effettua l'update 
 				this.coffeeData.updateCoffee(oldCoffeeName, new CoffeeBean(coffeeName, coffeePrice, coffeeQuantity));
+				//Setta il risultato nello scope di richiesta
 				request.setAttribute("coffeeData", this.coffeeData);
+				//effettua forwarding alla view
 				RequestDispatcher dispatcher = request.getRequestDispatcher("views/coffeesListView.jsp");
 				dispatcher.forward(request, response);
 			} catch (SQLException e) {
@@ -146,6 +155,14 @@ public class CoffeeServlet extends HttpServlet {
 			catch(Exception e )
 			{	e.printStackTrace();}		
 			}
+	}
+	
+	@Override
+	public void destroy(){
+		if(this.connection != null){
+			try{this.connection.close();}
+			catch(SQLException ignore){ignore.printStackTrace();}
+		}
 	}
 
 }

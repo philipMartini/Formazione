@@ -148,6 +148,8 @@ public class CoffeeDataBean {
 			        System.out.println("UPDATING: " + updateCoffeeInventory.toString());
 			        updateCoffeeInventory.executeUpdate();
 			        this.connection.commit();
+			        
+			        
 			        this.connection.setAutoCommit(true);
 			    } catch (SQLException e) {
 			      e.printStackTrace();
@@ -165,7 +167,7 @@ public class CoffeeDataBean {
 	   
 	   
 	   public Connection getConnection() { return this.connection; }
-	   
+	   /*
 	   protected void finalize(){
 		   try{
 			   this.statement.close();
@@ -173,5 +175,5 @@ public class CoffeeDataBean {
 			   
 		   }catch(SQLException e){ e.printStackTrace();}
 	   }
-
+		*/
 }

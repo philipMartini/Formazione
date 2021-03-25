@@ -5,7 +5,7 @@
 <!-- Fig. 27.23: guestBookView.jsp -->
 
 <%-- page settings --%>
-<%@ page errorPage = "guestBookErrorPage.jsp" %>
+<%@ page errorPage = "coffeeListViewErrorPage.jsp" %>
 <%@ page import = "java.util.*" %>
 <%@ page import = "org.advancia.filippo.model.*" %>
 
@@ -13,11 +13,10 @@
 <jsp:useBean id = "coffeeData" scope = "request" 
    class = "org.advancia.filippo.model.CoffeeDataBean" />
    
- <% if(coffeeData.getConnection() == null){
-	 	out.println("IS NULL");
-	 	request.getRequestDispatcher("/coffees").forward(request, response);
- }
-	 %>  
+ <% if(coffeeData.getConnection() == null){%>
+	 	<<jsp:forward page="/coffees" />
+ 
+	 <%}%>  
 
 <html xmlns = "http://www.w3.org/1999/xhtml">
    <head>
