@@ -48,36 +48,52 @@ public class Login extends HttpServlet {
 	  public void doGet(
 	   HttpServletRequest request, HttpServletResponse response)
 	   throws IOException, ServletException {
-	response.setContentType("text/html"); PrintWriter out = response.getWriter( ); out.println("<html>"); out.println("<head>"); out.println("<title>Login</title>"); out.println("</head>"); out.println("<body>");
-	    HttpSession session = request.getSession(  );
-	    Connection connection =
-	(Connection)session.getAttribute("connection"); if (connection == null) {
-	      String userName = request.getParameter("username");
+		  response.setContentType("text/html"); 
+		  PrintWriter out = response.getWriter( ); out.println("<html>"); 
+		  out.println("<head>"); 
+		  out.println("<title>Login</title>"); 
+		  out.println("</head>"); 
+		  out.println("<body>");
+		  HttpSession session = request.getSession(  );
+		  SessionConnection sessionConnection = 
+				  	(SessionConnection) session.getAttribute("sessionconnection");
+		  Connection connection = null;
+		  //Connection connection =
+				  //(Connection)session.getAttribute("connection"); 
+		  if (sessionConnection != null) {
+			  connection = sessionConnection.getConnection();
+		  }
+		  if(connection == null){
+			  String userName = request.getParameter("username");
 	 
-	      String password = request.getParameter("password");
-	      if (userName == null || password == null) {
+			  String password = request.getParameter("password");
+			  if (userName == null || password == null) {
 	// Prompt the user for her username and password 
-	 out.println("<form method=\"get\" action=\"login\">"); 
-	 out.println("Please specify the following to log in:<p>"); 
-	 out.println("Username: <input type=\"text\" " + "name=\"username\" size=\"30\"><p>"); 
-	 out.println("Password: <input type=\"password\" " + "name=\"password\" size=\"30\"><p>"); 
-	 out.println("<input type=\"submit\" value=\"login\">"); 
-	 out.println("</form>");
-	} else {
-	        // Create the connection
-	        try {
-	          connection = DriverManager.getConnection(
-	        		  "jdbc:mysql://localhost:3306/test", userName, password);
-	        }
-	        catch (SQLException e) {
-	          out.println("Login doGet() " + e.getMessage(  ));
-	        }
-	        if (connection != null) {
-	          // Store the connection
-	          session.setAttribute("connection", connection);
-	          response.sendRedirect("login");
-	          return;
-	} }
+				 out.println("<form method=\"get\" action=\"login\">"); 
+				 out.println("Please specify the following to log in:<p>"); 
+				 out.println("Username: <input type=\"text\" " + "name=\"username\" size=\"30\"><p>"); 
+				 out.println("Password: <input type=\"password\" " + "name=\"password\" size=\"30\"><p>"); 
+				 out.println("<input type=\"submit\" value=\"login\">"); 
+				 out.println("</form>");
+				} 
+			  else {
+		        // Create the connection
+		        try {
+		          connection = DriverManager.getConnection(
+		        		  "jdbc:mysql://localhost:3306/test", userName, password);
+		        }
+		        catch (SQLException e) {
+		          out.println("Login doGet() " + e.getMessage(  ));
+		        }
+		        if (connection != null) {
+		          // Store the connection
+		        	sessionConnection = new SessionConnection();
+		        	sessionConnection.setConnection(connection);
+		            session.setAttribute("sessionconnection", sessionConnection);
+		            response.sendRedirect("login");
+		          return;
+				} 
+				        }
 	} else {
 	      String logout = request.getParameter("logout");
 	      if (logout == null) {
@@ -88,7 +104,7 @@ public class Login extends HttpServlet {
 	        try {
 	          statement = connection.createStatement(  );
 	          resultSet = statement.executeQuery(
-	           "select * from prova");
+	           "select USER()");
 	          if (resultSet.next(  ))
 	            userName = resultSet.getString(1);
 	        }
@@ -117,12 +133,17 @@ public class Login extends HttpServlet {
 	 * è quindi necessario implementare una classe SessionConnection che implementa 
 	 * HTTPSessionBindingListener che abbia il compito di chiudere
 	 * In ogni caso la connessione***********/
-	try { connection.close( ); } catch (SQLException ignore) { } session.removeAttribute("connection");
+	try { connection.close( ); 
+	} catch (SQLException ignore) { } 
+	
+	session.removeAttribute("sessionconnection");
 	out.println("You have been logged out.");
 	} }
 	    out.println("</body>");
 	    out.println("</html>");
 	  }
+	  
+	  
 	  public void doPost(
 	   HttpServletRequest request, HttpServletResponse response)
 	   throws IOException, ServletException {
