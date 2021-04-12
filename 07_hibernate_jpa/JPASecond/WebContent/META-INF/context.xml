@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<Context path="/JPASecond">
+
+
+<Resource name="jdbc/test"
+
+
+auth="Container"
+
+
+type="javax.sql.DataSource"
+
+
+username="student"
+
+
+password="student"
+
+
+driverClassName="com.mysql.cj.jdbc.Driver"
+
+
+url="jdbc:mysql://localhost:3306/test"
+
+
+maxActive="15"
+
+maxIdle="3"/>
+
+</Context>
