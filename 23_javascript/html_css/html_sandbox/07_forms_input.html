@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forms & input</title>
+</head>
+<body>
+    <form action="" method="get">
+        <div>
+             <label for="name">Name</label><br>
+             <input type="text" id="name" name="name" value="John Doe">
+        </div>
+        <div>
+            <label for="email">Email</label><br>
+            <input type="email" name="email" id="email" placeholder="Enter a Valid Email">
+        </div>
+        <div>
+            <label for="message">Message</label><br>
+            <textarea name="message" id="message" cols="30" rows="10"></textarea>
+        </div>
+
+        <div>
+            <label for="sex"></label>
+            <select name="sex" id="sex">
+                <option value="male" selected>Male</option>
+                <option value="female">Female</option>
+            </select>
+        </div>
+        <div>
+            <label for="age">Age</label><br>
+            <input type="number" name="age" id="age">
+        </div>
+
+        <div>
+            <label for="birthdate">BirthDate</label><br>
+            <input type="date" name="birthdate" id="birthdate">
+        </div>
+
+        <div>
+            <label for="membership">Membership</label>
+                <input type="radio" name="membership" value="simple" id="membership">Simple
+                <input type="radio" name="membership" value="standard" id="membership" checked>Standard
+                <input type="radio" name="membership" value="super" id="membership">Super
+        </div>
+        <div>
+            <label for="membership">Hobbies</label>
+                <input type="checkbox" name="likes" value="car" id="simple ">Car
+                <input type="checkbox" name="likes" value="chess" id="default" checked>Chess
+                <input type="checkbox" name="likes" value="soccer" id="super">Soccer
+        </div>
+        <input type="submit" value="Submit">
+        <button type="submit">Submit</button>
+        <button type="reset">Reset</button>
+
+    </form>
+
+</body>
+</html>

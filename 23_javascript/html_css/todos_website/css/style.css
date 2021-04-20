@@ -1,0 +1,240 @@
+
+/*Css Reset*/
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+/*General Styling*/
+
+body {
+    font-family: 'Raleway', sans-serif;
+    background: #344a72;
+    line-height: 1.8rem;
+}
+
+a {
+    text-decoration: none;
+    color:#49c1a2;
+}
+
+p {
+    margin: 0.75rem 0;
+}
+
+/*Utility Classes*/
+
+.container {
+    margin: auto;
+    padding: 0 2rem;
+    overflow: hidden;
+    max-width: 1100px;
+
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-primary{
+    color:#49c1a2;
+}
+
+
+.bg-light {
+    background: whitesmoke;
+    color: #333;
+}
+
+.bg-dark {
+    color: antiquewhite;
+    background: #385486;
+}
+
+.l-heading {
+    font-size: 4rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.1;
+}
+
+.m-heading {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.1;
+}
+
+.lead {
+    font-size: 1.3rem;
+    margin-bottom: 2rem;
+}
+
+
+.btn{
+    padding: 0.5rem 2rem;
+    border-radius: 5px;
+    border:none;
+    cursor: pointer;
+    color: #fff;
+    background: #49c1a2;
+}
+
+.btn:hover{
+    background: #37a08e;
+}
+
+.py-1 { padding: 1.5rem 0; }
+.py-2 { padding: 2rem 0; }
+.py-3 { padding: 3rem 0; }
+
+.p-1 { padding: 1.5rem; }
+.p-2 { padding: 2rem; }
+.p-3 { padding: 3rem; }
+
+
+.control-btn {
+    border: none;
+    background:none;
+    /*margin: 0.7em;*/
+    padding: 0.7em;
+    cursor: pointer;
+    font-size: 1rem;
+
+}
+
+
+
+
+
+/*Container*/
+
+.container .l-heading{
+    color: white;
+    padding: 1rem;
+}
+
+/*Form Wrap*/
+.form-wrap {
+    margin: 3rem auto;
+    overflow: hidden;
+    max-width: 500px;
+    padding: 1rem 2rem;
+
+}
+
+.form-wrap h1{
+    color: #333;
+    line-height: 3.5rem;
+}
+
+.form-wrap input{
+    display: block;
+    width: 100%;
+    padding: 11px;
+    margin: 10px 0;
+    border-radius: 1%;
+    border-color: #ddd;
+}
+
+.form-wrap input:focus{
+    outline: none ;
+    border:1px solid red;
+    border-color: #37a08e;
+    box-shadow: 0 0 10px #719ECE;
+}
+
+.form-wrap label{
+    margin-top: 20px;
+    color: #333;
+}
+
+.form-wrap .btn {
+    width: 100%;
+}
+
+.form-wrap .bottom-text{
+    color: rgb(70, 66, 66);
+    margin-top: 15px;
+}
+
+/*Form footer*/
+
+#not-registered {
+    margin: 1rem ;  
+ }
+ 
+ #not-registered a:hover {
+     color: #37a08e;
+ 
+ }
+
+
+/*ToDos Header*/
+header {
+    display: flex;
+    padding: 1rem;
+    justify-content: space-around;
+}
+
+/*ToDos Main*/
+
+
+.todo-group {
+    padding: 1rem;
+    margin: 1rem;
+    background: rgb(235, 230, 230);
+    
+}
+
+.todo-group input{
+    border: none;
+    background: none;
+    
+}
+
+.todo-group input:focus {
+    /*background: #fff;*/
+    outline-width: 1px;
+    outline-color: #49c1a2;
+   
+}
+
+
+.todo-main-view {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: #ddd 1px solid;
+}
+
+.todo-main-view .control-btn{
+    padding-left: 0rem;
+}
+
+
+.todo-main-view input{
+    font-size: 1.3rem;  
+}
+
+.todo-text-view {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+
+
+.todo-text-view .controls {
+    display: flex;
+}
+
+
+.todo-group .todo-text-view .controls input:hover{
+    color: #37a08e;
+}
+
+
+
+
+
+.error-message{
+    color: red;
+}

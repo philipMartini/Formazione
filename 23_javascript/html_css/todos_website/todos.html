@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital@1&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/9a3935e417.js" crossorigin="anonymous"></script>
+    <title>ToDos WebApp</title>
+</head>
+<body>
+
+     <!--Header-->
+     <header class="bg-dark">
+         <div>
+            <h1><i class="fas fa-clipboard-list"></i></i><span class="text-primary"> $User</span>'s Todos</h1>
+        </div>
+        <div>
+            <form action="" method="post">
+                <button class="btn btn-primary" type="submit" name="logout">Logout</button>
+            </form>
+        </div>
+    </header>
+<div class="container">
+
+    <!--Main section-->
+    <main>
+        <div class="container bg-light">
+
+            <!--View toDo-->
+            <div class="todo-group">
+                    <form method = "post">
+                        <div class="todo-main-view">
+                            <div>
+                                <button class="control-btn" type="submit" name="done"><i class="far fa-check-circle fa-2x"></i></button>
+                                <input class="m-heading" type = "text" name = "toDoTitle" value="<%= toDo.getTitle() %>" />
+                            </div>
+
+                            <div>
+                                <button class="control-btn" type="submit"><i class="fas fa-caret-down fa-2x"></i></button>
+                            </div>
+                        </div>
+                        <div class="todo-text-view">
+                            <div class="item">
+                                <input  class="lead" type = "text" name = "toDoText" value="<%= toDo.getText() %>" />
+                            </div>
+                            <div class="controls item">
+                                <div>
+                                    <input class="control-btn text-primary" type = "submit"  name="delete" value = "Delete" />
+                                </div>
+                                <div>
+                                    <input class="control-btn text-primary" type = "submit" name="update" value = "Update" />
+                                </div>
+                            </div>
+                        </div>
+                    
+                    </form>
+            </div>
+
+            
+
+            
+            <!--Add toDO-->
+            
+            <div class="todo-group">
+                <form method = "post">
+                    <div class="todo-main-view">
+                        <div>
+                            <button class="control-btn" type="submit"><i class="fas fa-plus-circle fa-2x"></i></button>
+                            <input class="m-heading" type = "text" name = "toDoTitle" placeholder="Enter a Title"/>
+                        </div>
+                    </div>
+                    <div class="todo-text-view">
+                        <div>
+                            <input  class="lead" type = "text" name = "toDoText" placeholder="Enter The Text" />
+                        </div>
+                        <div class="controls">
+                            <div>
+                                <input class="control-btn text-primary" type = "submit"  name="add" value = "Add" />
+                            </div>
+                        </div>
+                    </div>
+                
+                </form>
+        </div>
+           
+
+        </div>
+    </main>
+
+</div>
+
+    
+</body>
+</html>

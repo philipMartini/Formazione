@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Box model, Margin & Padding</title>
+    <style>
+
+        /*Css RESET*/
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        .box {
+            background : lightgray;
+            border: 2px gray solid;
+            width: 500px;
+
+            /*Padding on alla sides*/
+            padding: 20px;
+
+            /*Padding per side*/
+            padding-top: 10px;
+            padding-right: 20px;
+            padding-bottom: 10px;
+            padding-left: 20px;
+
+            /*Padding shorthand top right bottom left*/
+            padding: 10px 20px 10px 20px;
+
+            /*Another shorthand top/bottom left/right*/
+            padding : 10px 20px;
+
+            /*Margin on all sides*/
+            margin: 20px;
+
+            /*margin on alla sides*/
+            margin: 20px;
+
+            /*margin per side*/
+            margin-top: 10px;
+            margin-right: 20px;
+            margin-bottom: 10px;
+            margin-left: 20px;
+
+            /*margin shorthand top right bottom left*/
+            margin: 10px 20px 10px 20px;
+
+            /*Another shorthand top/bottom left/right*/
+            margin : 10px 20px;
+        }
+
+        .box h3 {
+            margin-bottom: 12px;
+        }
+
+        footer {
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="box">
+        <h3>Box One</h3>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum totam numquam rerum corrupti quo saepe excepturi voluptates maiores tenetur est.</p>
+    </div>
+    <div class="box">
+        <h3>Box One</h3>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum totam numquam rerum corrupti quo saepe excepturi voluptates maiores tenetur est.</p>
+    </div>
+    
+</body>
+</html>

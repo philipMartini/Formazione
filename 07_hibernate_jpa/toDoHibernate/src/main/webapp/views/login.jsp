@@ -1,0 +1,40 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ToDos WebApp</title>
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Raleway:ital@1&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/views/css/style.css">
+</head>
+<body>
+	<div class="container">
+		<h1 class="l-heading text-center">ToDos WebApp</h1>
+		<div class="form-wrap bg-light">
+			<form method="post" action="${pageContext.request.contextPath}/todos">
+				<label for="userName">User Name</label>
+				<input type="text" name="userName"/>
+				<label for="password">Password</label>
+				<input type="password" name="password"/>
+				<button class="btn btn-primary" type="submit" name="login">Sign In</button>
+				<% String error = (String) request.getAttribute("error");
+					if(error != null){	%>
+					<div class="error-message"><%=error%></div>
+					<%} %>
+			</form>
+			<div id="not-registered"><p class="text-center">Not registered ? <a href="${pageContext.request.contextPath}/views/signup.jsp">Sign Up Here</a></p></div>
+
+		</div> 
+		
+
+	</div>
+	
+	
+	
+</body>
+</html>
+

@@ -37,6 +37,7 @@
          UserDatabaseRealm to authenticate users
     -->
     <Resource auth="Container" description="User database that can be updated and saved" factory="org.apache.catalina.users.MemoryUserDatabaseFactory" name="UserDatabase" pathname="conf/tomcat-users.xml" type="org.apache.catalina.UserDatabase"/>
+    <Resource auth="Container" driverClassName="com.mysql.cj.jdbc.Driver" global="jdbc/dbToDo" maxActive="15" maxIdle="3" name="jdbc/dbToDo" password="student" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/hibernatedb" username="student"/>
   </GlobalNamingResources>
 
   <!-- A "Service" is a collection of one or more "Connectors" that share
@@ -153,7 +154,11 @@
              Note: The pattern used is equivalent to using pattern="common" -->
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log" suffix=".txt"/>
 
-      <Context docBase="JPAHibernateDataSource" path="/JPAHibernateDataSource" reloadable="true" source="org.eclipse.jst.jee.server:JPAHibernateDataSource"/></Host>
+      
+      
+
+
+      <Context docBase="JspDbConnection" path="/JspDbConnection" reloadable="true" source="org.eclipse.jst.jee.server:JspDbConnection"/><Context docBase="toDoHibernate" path="/toDoHibernate" reloadable="true" source="org.eclipse.jst.jee.server:toDoHibernate"/></Host>
     </Engine>
   </Service>
 </Server>
