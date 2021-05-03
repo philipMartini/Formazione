@@ -158,7 +158,7 @@
       
 
 
-      <Context docBase="JspDbConnection" path="/JspDbConnection" reloadable="true" source="org.eclipse.jst.jee.server:JspDbConnection"/><Context docBase="toDoHibernate" path="/toDoHibernate" reloadable="true" source="org.eclipse.jst.jee.server:toDoHibernate"/></Host>
+      <Context docBase="JspDbConnection" path="/JspDbConnection" reloadable="true" source="org.eclipse.jst.jee.server:JspDbConnection"/><Context docBase="toDoHibernate" path="/toDoHibernate" reloadable="true" source="org.eclipse.jst.jee.server:toDoHibernate"/><Context docBase="JPAFirst" path="/JPAFirst" reloadable="true" source="org.eclipse.jst.jee.server:JPAFirst"/><Context docBase="toDoJpa" path="/toDoJpa" reloadable="true" source="org.eclipse.jst.jee.server:toDoJpa"/></Host>
     </Engine>
   </Service>
 </Server>
