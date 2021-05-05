@@ -181,3 +181,52 @@ SELECT DISTINCT e.department_id, COUNT(*)
 FROM employees e 
 GROUP BY e.department_id, e.manager_id
 HAVING COUNT(*) > 5;
+
+--Change salary of employee 115 to 8000 if the existing salary is less than 6000.
+UPDATE employees e 
+SET e.salary = 8000
+WHERE e.employee_id = 115 AND e.salary < 6000;
+
+--Insert a new employee into employees with all the required details.
+INSERT INTO employees
+(EMPLOYEE_ID, FIRST_NAME, LAST_NAME, EMAIL, PHONE_NUMBER, HIRE_DATE,JOB_ID, SALARY, DEPARTMENT_ID)
+VALUES ((207, 'ANGELA', 'SNYDER','ANGELA','215 253 4737', SYSDATE, 'SA_MAN', 12000, 80);
+
+--Delete department 20.
+DELETE FROM departments d
+WHERE d.department_id = 20;
+
+--Change job ID of employee 110 to IT_PROG if the employee belongs to department 10 and the existing job ID does not start with IT.
+UPDATE employees e
+SET e.job_id = 'IT_PROG'
+WHERE e.employee_id = 110 AND e.department_id = 10 AND NOT (e.job_id LIKE 'IT%';
+
+
+--Insert a row into departments table with manager ID 120 and location ID in any location ID for city Tokyo.
+
+INSERT INTO departments d (department_id, department_name, manager_id, location_id)
+SELECT 47, 'NEW_DEPARMENT', 120, MAX(l.location_id)
+FROM locations l 
+WHERE l.city = 'Tokyo';
+
+--Display department name and number of employees in the department.
+SELECT d.department_name, COUNT(*) AS employees_number
+FROM  employees e JOIN departments d 
+ON e.department_id = d.department_id
+GROUP BY d.department_id;
+
+
+--Display job title, employee ID, number of days between ending date and starting date for all jobs in department 30 from job history.
+SELECT j.job_title, jh.employee_id, (jh.end_date - jh.start_date) AS delta_days
+FROM job_history jh JOIN jobs j ON (jh.job_id = j.job_id) 
+JOIN  employees e ON (e.employee_id = jh.employee_id);
+
+--Display department name, manager name, and city.
+SELECT d.department_name, e.first_name, e.last_name, l.city 
+FROM departments d JOIN locations l ON (d.location_id = l.location_id)
+JOIN employees e ON (d.manager_id = e.employee_id);
+
+--Display country name, city, and department name.
+SELECT c.country_name, l.city, d.department_name
+FROM countries c JOIN locations l ON (c.country_id = l.country_id)
+JOIN departments d ON (l.location_id = d.location_id);
