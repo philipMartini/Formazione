@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="style.css">
+  <title>My Landing Page</title>
+</head>
+<body>
+  
+  <nav class="logo">
+    <img src="https://randomuser.me/api/portraits/men/76.jpg" alt="user">
+
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Portfolio</a></li>
+      <li><a href="#">Blog</a></li>
+      <li><a href="#">Contact Me</a></li>
+    </ul>
+  </nav>
+
+  <header>
+    <button id="toggle" class="toggle">
+      <i class="fa fa-bars fa-2x"></i>
+    </button>
+    <h1>My Landing Page</h1>
+    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Odio, quis?</p>
+    <button class="cta-btn" id="open">Sign Up</button>
+  </header>
+
+  <div class="container">
+    <h2>What is This Landing Page About</h2>
+    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perferendis repellendus ipsa excepturi minima harum iure esse asperiores, voluptatem, voluptatibus delectus temporibus totam sunt fugit nisi magni explicabo, repellat dolor ab?</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit temporibus amet ipsam consectetur veniam iste blanditiis eveniet est saepe rem?</p>
+
+    <h2>Tell Me More</h2>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate, quaerat delectus, quas, consequuntur vel possimus et quia quos debitis ad quisquam. Soluta sed, impedit porro fugiat laboriosam quam exercitationem. Magnam quidem aliquam quibusdam ipsa labore. Ducimus officiis nostrum atque minima.</p>
+
+    <h2>Benefits</h2>
+    <ul>
+      <li>Lifetime Access</li>
+      <li>30 Day Money Back</li>
+      <li>Taylored Customer Support</li>
+    </ul>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas temporibus itaque reprehenderit dolores sapiente quae esse culpa magni, amet optio perspiciatis, suscipit voluptatibus a voluptatum dicta nihil tenetur asperiores porro voluptatem expedita aliquid, accusamus aspernatur incidunt? Placeat a obcaecati exercitationem autem ex nesciunt tenetur, voluptatem dolores sequi porro. Saepe cumque eaque soluta repellendus consectetur, obcaecati enim! Accusantium aliquam molestiae quis, quae sunt atque dolorum repudiandae, nisi cumque itaque quasi. Excepturi!</p>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal-container" id="modal">
+    <div class="modal">
+      <button class="close-btn" id="close">
+        <i class="fa fa-times"></i>
+      </button>
+      <div class="modal-header"><h3>Sign Up</h3></div>
+      <div class="modal-content">
+        <p>Register With Us to get offers, support and more</p>
+        <form class="modal-form">
+          <div>
+            <label for="name">Username</label>
+            <input type="text" id="name" placeholder="Enter name" class="form-input">
+          </div>
+          <div>
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="Enter email" class="form-input">
+          </div>
+          <div>
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Enter password" class="form-input">
+          </div>
+          <div>
+            <label for="password2">Confirm Password</label>
+            <input type="password" id="password2" placeholder="Confirm password" class="form-input">
+          </div>
+          <input type="submit" value="Submit" class="submit-btn">
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>

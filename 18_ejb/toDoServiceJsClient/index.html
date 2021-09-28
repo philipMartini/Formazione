@@ -15,17 +15,151 @@
 
   <nav class="navbar navbar-expand-sm navbar-light bg-light mb-3">
     <div class="container">
-        <a class="navbar-brand" href="#"><i class="fas fa-clipboard-list"></i> <span class="text-primary">Please Login to</span> ToDos WebService</a>
-        <button class="navbar-toggler" data-toggle="collapse"
+        <p class="navbar-brand lead" href="#"><i class="fas fa-clipboard-list"></i> <span class="text-primary">Please Login to</span> ToDos WebService</p>
+        <button class="navbar-toggler mb-2" data-toggle="collapse"
         data-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
-       
-          <!-- Modal -->
+       <div class="collapse navbar-collapse" id="navbarNav">
+          <form action="" class="form-inline ml-auto">
+            <input type="text" class="form-control mr-2 mb-3" placeholder="Search By Title...">
+            <button class="btn btn-outline-success mr-5 mb-3">Search</button>
+        </form>
+          <!-- MODAL TRIGGER -->
+            <button class="btn btn-primary mr-2 mb-3" data-toggle="modal" data-target="#my-login-modal">Login</button>
+
+            <!-- Logout Button -->
+            <button type="button" class="btn btn-dark mb-3">Logout</button>
+          
+       </div>
+           <!-- Modal -->
+
+          <div class="modal" id="my-login-modal">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Login</h5>
+                  <button class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                  <form>
+                    <div class="form-group">
+                      <label for="username">Username</label>
+                      <input type="text" class="form-control" placeholder="Username...">
+                    </div>
+                    <div class="form-group">
+                      <label for="password">Passoword</label>
+                      <input type="text" class="form-control" placeholder="Password...">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary" data-dismiss="modal">Login</button>
+                </div>
+              </form>
+            </div>
+            </div>
+          </div>
+
+         
             
     </div>
     </div>
 </nav>
 
 
-  
+<div class="container">
+
+  <!-- Add/Update ToDo -->
+  <div class="card">
+    <div class="card-body">
+      <span class="card-title"><h2 class="text-center text-primary mb-4">Add ToDo</h2></span>
+      <form>
+        
+       <div class="row justify-content-between">
+
+          <div class="col-7">
+            <div class="input-group mb-3">
+              <input class="form-control" type="text" placeholder="Title..." id="todo-title">
+              <div class="input-group-append"><span class="input-group-text">Title</span></div>
+            
+            </div>
+
+            <div class="input-group">
+              <input class="form-control" type="text" placeholder="Text...." id="todo-text">
+              <div class="input-group-append"><span class="input-group-text">Text</span></div>
+
+            </div>
+            
+          </div>
+
+          
+            
+          
+          <div class="col-5">
+            <button class="add-btn btn btn-success mb-3 "><i class="fa fa-plus"></i> Add </button>
+            
+            <button class="update-btn btn btn-warning mb-3 d-none"><i class="fa fa-pen-square"></i> Update</button>
+
+            <button class="delete-btn btn btn-danger mb-3 d-none"><i class="fa fa-times-circle"></i> Remove</button>
+
+            <button class="back-btn btn grey btn-light mb-3 d-none"><i class="fa fa-chevron-circle-left"></i> Back</button>
+          </div>
+       </div> 
+
+      </form>
+    </div>
+  </div>
+
+
+
+
+  <!-- ToDos List -->
+  <ul class="list-group list-group-flush mb-5">
+    
+    <li class="list-group-item" id="todo-0">
+
+          <a href="" class="mr-2"><i class="fas fa-check-circle text-dark"></i></a>
+          <!-- Qui serve un campo nascosto  per capire se il todo è done oppure no -->
+          <div class="todo-title d-inline-block mr-2"><h3 class="font-weight-bold">The Title Of the ToDO</h3></div>
+          <div class="todo-text d-inline-block"><p class="lead">The Text Of the ToDo</p></div>
+          
+          <a href="" class="mt-2 float-right"><i class="fa fa-pencil-alt text-warning"></i></a>
+    </li>
+
+    <li class="list-group-item" id="todo-0">
+
+      <a href="" class="mr-2"><i class="fas fa-check-circle text-dark"></i></a>
+      <!-- Qui serve un campo nascosto  per capire se il todo è done oppure no -->
+      <div class="todo-title d-inline-block mr-2"><h3 class="font-weight-bold">The Title Of the ToDO</h3></div>
+      <div class="todo-text d-inline-block"><p class="lead">The Text Of the ToDo</p></div>
+      
+      <a href="" class="mt-2 float-right"><i class="fa fa-pencil-alt text-warning"></i></a>
+    </li>
+
+    <li class="list-group-item" id="todo-0">
+
+      <a href="" class="mr-2"><i class="fas fa-check-circle text-dark"></i></a>
+      <!-- Qui serve un campo nascosto  per capire se il todo è done oppure no -->
+      <div class="todo-title d-inline-block mr-2"><h3 class="font-weight-bold">The Title Of the ToDO</h3></div>
+      <div class="todo-text d-inline-block"><p class="lead">The Text Of the ToDo</p></div>
+      
+      <a href="" class="mt-2 float-right"><i class="fa fa-pencil-alt text-warning"></i></a>
+    </li>
+
+    <li class="list-group-item"></li>
+    
+    
+    
+</ul>
+
+
+
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+crossorigin="anonymous"></script>
 </body>
 </html>

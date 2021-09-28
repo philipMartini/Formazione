@@ -230,3 +230,238 @@ JOIN employees e ON (d.manager_id = e.employee_id);
 SELECT c.country_name, l.city, d.department_name
 FROM countries c JOIN locations l ON (c.country_id = l.country_id)
 JOIN departments d ON (l.location_id = d.location_id);
+
+
+--Display job title, department name, employee last name, starting date for all jobs from 2000 to 2005.
+
+SELECT j.job_title, d.department_name, e.last_name, jh.start_date
+FROM employees e JOIN departments d ON (e.department_id = d.department_id)
+JOIN jobs j ON  (e.job_id = j.job_id)
+JOIN job_history jh ON (e.employee_id = jh.employee_id)
+WHERE TO_CAHR(jh.start_date, 'YYYY') BETWEEN 2000 AND 2005;
+
+--Display job title and average salary of employees
+SELECT AVG(e.salary) AS average_salary, j.job_title
+FROM employees e JOIN jobs j ON (e.job_id = j.job_id)
+GROUP BY j.job_title;
+
+--Display job title, employee name, and the difference between maximum salary for the job and salary of the employee.
+SELECT j.job_title, e.first_name, (j.max_salary - j.min_salary) AS delta_salary
+FROM employees e JOIN jobs j ON (e.job_id = j.job_id)
+
+--Display last name, job title of employees who have commission percentage and belongs to department 30.
+SELECT e.last_name, j.job_title
+FROM employees e JOIN j.jobs ON (e.job_id = j.job_id)
+WHERE e.department_id = 30 AND e.commission_pct IS NOT NULL;
+
+--Display details of jobs that were done by any employee who is currently drawing more than 15000 of salary.
+
+SELECT jh.*, j.job_title
+FROM employees e JOIN job_history jh ON (e.employee_id = jh.employee_id)
+JOIN jobs j ON (jh.job_id = j.job_id)
+WHERE e.salary > 15000;
+
+--51. Display department name, manager name, and salary of the manager for all managers whose experience is more than 5 years.
+SELECT m.first_name, m.last_name, m.salary, d.department_name
+FROM employees m JOIN departments d ON (m.employee_id = d.manager_id)
+WHERE (SYSDATE - m.hire_date ) / 365 > 5;
+
+--52. Display employee name if the employee joined before his manager.
+
+SELECT e.first_name
+FROM employees e JOIN employees m ON (e.manager_id = m.employee_id)
+WHERE e.hire_date < m.hire_date;
+
+--53. Display employee name, job title for the jobs employee did in the past where the job was done less than six months.
+SELECT e.first_name, j.job_title
+FROM employees e JOIN job_history jh ON (e.employee_id = jh.employee_id)
+JOIN jobs j ON (jh.job_id = j.job_id)
+WHERE MONTHS_BETWEEN(jh.end_date, jh.end_date)  < 6;
+
+--54. Display employee name and country in which he is working.
+SELECT e.first_name, c.country_name
+FROM employees e JOIN departments d ON (e.department_id = d.department_id)
+JOIN locations l ON (d.location_id = l.location_id) 
+JOIN countries c ON (c.country_id = l.country_id); 
+
+--55. Display department name, average salary and number of employees with commission within the department.
+SELECT d.department_name, AVG(e.salary) AS avg_salary, COUNT(*) AS employees_in_department
+FROM employees e JOIN departments d ON (e.department_id = d.department_id)
+WHERE e.commission_pct IS NOT NULL
+GROUP BY d.department_name;
+
+--56. Display the month in which more than 3 employees joined in any department located in Seattle.
+SELECT TO_CHAR(e.hire_date, 'MON') AS hire_month, COUNT(*) as number_employees_joined
+FROM employees e JOIN departments d ON (e.department_id = d.department_id)
+JOIN locations l ON (d.location_id = l.location_id)
+WHERE LOWER(l.city) = 'seattle'
+GROUP BY TO_CHAR(e.hire_date, 'MON')
+HAVING COUNT(*) > 3;
+
+--57. Display details of departments in which the maximum salary is more than 10000.
+
+SELECT *
+FROM departments d 
+WHERE d.department_id IN (
+
+    SELECT d.department_id
+    FROM employees e
+    GROUP BY e.department_id 
+    HAVING MAX(e.salary) > 10000
+    );
+
+--58 Display details of departments managed by ‘Smith’
+
+SELECT *
+FROM departments d 
+WHERE d.manager_id IN (
+  SELECT m.employee_id
+  FROM employees m
+  WHERE LOWER(m.last_name) = 'smith'
+
+
+);
+
+--59. Display jobs into which employees joined in the current year.
+
+SELECT *
+FROM jobs j
+WHERE j.job_id IN (
+
+  SELECT e.job_id
+  FROM employees e 
+  WHERE TO_CHAR(e.hire_date,'YYYY') = TO_CHAR(SYSDATE, 'YYYY')
+
+
+);
+
+
+--60. Display employees who did not do any job in the past.
+SELECT *
+FROM employees e
+WHERE e.employee_id NOT IN (
+  SELECT jh.employee_id
+  FROM job_history jh
+);
+
+
+--61. Display job title and average salary for employees who did a job in the past.
+SELECT j.job_title, AVG(e.salary)
+FROM employees e JOIN jobs j ON (e.job_id = j.job_id)
+GROUP BY j.job_title
+WHERE e.employee_id IN (
+
+  SELECT jh.employee_id
+  FROM job_history jh
+);
+
+--62. Display country name, city, and number of departments where department has more than 5 employees.
+
+SELECT c.country_name, l.city, COUNT(*) AS number_of_departments
+FROM departments d JOIN locations l ON (d.location_id = l.location_id)
+JOIN countries c ON (c.country_id = l.country_id)
+WHERE d.department_id IN  (
+  SELECT d1.department_id
+  FROM employees e JOIN departments d1 ON (e.department_id = d1.department_id)
+  GROUP BY d1.department_id
+  HAVING COUNT(*) > 5
+  )
+GROUP BY c.country_name, l.city;
+
+
+--63. Display details of manager who manages more than 5 employees.
+SELECT *
+FROM employees m
+WHERE m.employee_id IN (
+
+  SELECT e.manager_id
+  FROM employees e 
+  GROUP BY e.manager_id
+  HAVING COUNT(*) > 5
+
+
+);
+
+--64. Display employee name, job title, start date, and end date of past jobs of all employees with commission percentage null.
+
+SELECT e.first_name, j.job_title, jh.start_date, jh.end_date
+FROM employees e JOIN job_history jh ON (e.employee_id = jh.employee_id)
+JOIN jobs j ON (jh.job_id = j.job_id)
+WHERE e.commission_pct IS NULL;
+
+
+--65 Display the departments into which no employee joined in last 14 years.
+
+SELECT d.department_name
+FROM departments d
+
+MINUS 
+
+SELECT d.department_name
+FROM employees e JOIN departments d ON (e.department_id = d.department_id)
+WHERE  ((SYSDATE - e.hire_date) / 365) < 14;
+
+
+--66. Display the details of departments in which the max salary is greater than 10000 for employees who did a job in the past.
+SELECT *
+FROM departments d 
+WHERE d.department_id IN (
+  SELECT d1.department_id
+  FROM job_history jh JOIN jobs j ON (jh.job_id = j.job_id)
+  WHERE j.max_salary > 10000;
+
+);
+
+--67. Display details of current job for employees who worked as IT Programmers in the past.
+
+SELECT j.job_id, j.job_title
+FROM jobs j JOIN employees e ON (j.job_id = e.job_id)
+WHERE  e.employee_id IN (
+
+  SELECT e1.employee_id
+  FROM job_history jh
+  WHERE jh.job_id = 'IT_PROG'
+
+);
+
+--68. Display the details of employees drawing the highest salary in the department.
+
+SELECT *
+FROM employees e 
+WHERE e.salary, e.department_id IN (
+  SELECT MAX(e1.salary), e1.department_id
+  FROM employees e1
+  GROUP BY e1.department_id
+);
+
+--Con le query nidificate
+SELECT DEPARTMENT_ID,FIRST_NAME, SALARY 
+FROM EMPLOYEES e 
+WHERE SALARY =(
+  SELECT MAX(SALARY) 
+  FROM EMPLOYEES 
+  WHERE DEPARTMENT_ID = OUTER.DEPARTMENT_ID
+  );
+
+--69. Display the city of employee whose employee ID is 105.
+-- farlo con query nidificate
+SELECT l.city
+FROM locations l 
+WHERE l.location_id = (
+  SELECT d.location_id
+  FROM departments d
+  WHERE d.department_id = (
+    SELECT e.department_id
+    FROM employees e 
+    WHERE e.employee_id = 105
+  )
+
+);
+
+--70. Display third highest salary of all employees
+SELECT  *
+FROM (
+  SELECT e.salary, ROW_NUMBER() OVER (ORDER BY e.salary DESC) rn
+  FROM employees e
+)
+WHERE rn = 3;

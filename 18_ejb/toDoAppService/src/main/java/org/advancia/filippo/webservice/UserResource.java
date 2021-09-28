@@ -70,7 +70,8 @@ public class UserResource {
 	  @Path("{userId}")
 	  @Produces(MediaType.APPLICATION_JSON) public Response
 	  deleteUser(@PathParam("userId") int id) {
-	  this.businessService.deleteUserById(id); return Response.noContent().build();
+		  this.businessService.deleteUserById(id); 
+		  return Response.noContent().build();
 	  }
 	  
 	  
