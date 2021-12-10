@@ -25,6 +25,10 @@ public class CollectionsIterationExample {
 		//INTERNAL ITERATION e si esprime con....
 		people.forEach(p -> System.out.println(p)); //Questo prende in input un Consumer => posso quindi passare una lambda!!!!
 		System.out.println("******* Using Method Reference *************");
+		
+		
+		
+		
 		//Posso anche esprimere la precedente lambda come un method reference
 		people.forEach(System.out::println);
 	}
