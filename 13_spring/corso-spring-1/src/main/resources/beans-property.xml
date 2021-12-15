@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd"
+        
+        
+        >
+        
+   
+   
+   <!-- Un altro modo per configurare limporting delle properties è definire un namespace context e utilizzarlo
+   per importare il file -->
+   
+    <context:property-placeholder location="config.properties"/>    
+<!--    Uso della property      -->
+   <bean id="prop" class="org.filippo.formazione.BeanProperty">
+   	<property name="message" value="${message}"></property>
+   </bean>
+  
+   
+ </beans>

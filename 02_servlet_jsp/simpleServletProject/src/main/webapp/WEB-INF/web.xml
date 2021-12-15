@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
+  <display-name>simpleServletProject</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+  </welcome-file-list>
+
+  <!-- Configurazione servlet tramite xml -->
+  <servlet>
+  	<servlet-name>xmlServlet</servlet-name>
+  	<servlet-class>org.advancia.filippo.XmlServlet</servlet-class>
+  	<!-- è possibile settare anche qui gli init params !-->
+  	<init-param>
+  		<param-name>defaultName</param-name>
+  		<param-value>Foo Bar</param-value>
+  	</init-param>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>xmlServlet</servlet-name>
+  	<url-pattern>/XmlServletPath</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Configurazione degli init params per la JSP initPage.jsp
+  Non sapendo quale sia la servlet riferita dalla jsp, il nome lo posso scegliere io -->
+  <servlet>
+  	<servlet-name>InitJSP</servlet-name>
+  	<jsp-file>/initPage.jsp</jsp-file>
+  	<init-param>
+  		<param-name>defaultUser</param-name>
+  		<param-value>Default User Name</param-value>
+  	</init-param>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>InitJSP</servlet-name>
+  	<url-pattern>/initPage.jsp</url-pattern>
+  </servlet-mapping>
+  
+</web-app>

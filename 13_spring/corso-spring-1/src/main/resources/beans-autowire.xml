@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+       
+	<bean id="autoA" class="org.filippo.formazione.BeanAutoA"></bean>
+	
+<!-- Se uso setter injection( quindi con le property) posso mettere 1) autowire=no 
+	2) byName il container cerca un bean con lo stesso id della variabile membro nella classe AutoB (sotto viene fatta una setter injection)		
+	3) byType il container cerca un bean con il tipo specificato   
+	4) constructor viene effettuata una DI byType sul parametro passato al costruttore
+	NB: per escludere un bean dall'autowiring settare autowiring-candidat=false-->
+	<bean id="autoB" class="org.filippo.formazione.BeanAutoB" autowire="byName"></bean>
+    <bean id="autoC" class="org.filippo.formazione.BeanAutoC"></bean>
+    <bean id="autoD" class="org.filippo.formazione.BeanAutoD" autowire="byType"></bean>
+    <bean id="autoE" class="org.filippo.formazione.BeanAutoE" autowire="constructor"></bean>
+ </beans>

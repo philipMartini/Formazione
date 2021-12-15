@@ -1,0 +1,83 @@
+openapi: 3.0.2
+info:
+  version: '1.0'
+  title: 'OpenAPI Course'
+  description: Specification for OpenAPI Course
+  contact:
+    name: Filippo Martini
+    email: zalumare@gmail.com
+  license:
+    name: Apache 2.0
+    url: https://www.someApacheLicense.com
+#Servers On which your API is available
+servers:
+  - url: https://dev.example.com
+    description: Development Server
+#Paths to Your API
+paths:
+  /v1/customers:
+    get:
+      responses:
+        '200':
+          description: List Of Customers
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerList'
+                
+                      
+
+components:
+  schemas:
+    Address:
+      type: object
+      description: Address Object
+      properties:
+        line1:
+          type: string
+        city:
+          type: string
+        stateCode:
+          type: string
+          minLength: 2
+          maxLength: 2
+          description: Two letter state Code
+          #enum: [AL, AK, AZ, AR, CA] #StateCode MUST be one of these
+          #Oppure posso specificarla cosi
+          enum:
+            - AL
+            - AK
+            - AZ
+            - AR
+            - CA
+        zipCode:
+          type: string
+          example: '3307'
+    Customer:
+      type: object
+      description: Customer Object
+      properties:
+        id:
+          type: string
+          format: uuid
+        firstName:
+          type: string
+          minLength: 2
+          maxLength: 100
+          example: John
+        lastName:
+          type: string
+          minLength: 2
+          maxLength: 100
+          example: Doe
+        address:
+          $ref: '#/components/schemas/Address'
+    CustomerList:
+      type: array
+      minItems: 1
+      maxItems: 100
+      description: List of Customers
+      items:
+        $ref: '#/components/schemas/Customer'
+      
+

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+        
+<!--     Posso istanziare bean anche utilizzando una classe che ha metodi factory di istanza 	 -->
+
+<!-- 	Definisco il bean factory che contiene i metodi da invocare per la creazione dei bean -->
+	<bean id="bean-factory" class="org.filippo.formazione.BeanFactoryIstanza"></bean>
+	
+<!-- 	factory bean specifica il bean da utilizzare come classe -->
+	<bean id="ordine" factory-bean="org.filippo.formazione.BeanFactory" factory-method="getOrdineService" init-method="init" destroy-method="clean"></bean>
+	<bean id="prodotto" factory-bean="org.filippo.formazione.BeanFactory" factory-method="getProdottoService"></bean>
+        
+        
+ </beans>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+    
+    
+<!--     Singleton è lo scope di default il container restituisce SEMPRE la stessa istanza     -->
+	<bean id="beanSingleton" class="org.filippo.formazione.BeanSingleton" scope="singleton">
+	</bean>
+	
+	<bean id="beanPrototype" class="org.filippo.formazione.BeanPrototype" scope="prototype">
+		
+	</bean>
+        
+        
+ </beans>

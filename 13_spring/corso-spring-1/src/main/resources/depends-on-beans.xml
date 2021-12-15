@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+   
+<!--    Specificando la prop. depends-on dico al container di inizializzare PRIMA il bean B -->
+   <bean id="A" class="org.filippo.formazione.BeanA" depends-on="B"></bean>
+   <bean id="B" class="org.filippo.formazione.BeanB"></bean>
+        
+</beans>

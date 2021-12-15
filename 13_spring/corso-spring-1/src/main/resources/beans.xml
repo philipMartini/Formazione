@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd"
+        
+        default-init-method="init" default-destroy-method="clean">
+        <!-- Specifico metodi init e destroy per TUTTI i beans.
+        é possibile fare override a livello di singolo bean definendo init e destroy -->
+        
+<!--      id identifica il bean univocamente nel file xml  e quindi nell'applicazione.
+		In alternativa si può usare la proprietà name	 -->
+	<bean id="ordine" class="org.filippo.formazione.OrdineService"></bean>
+	<bean id="prodotto" class="org.filippo.formazione.ProdottoService"></bean>
+        
+        
+ </beans>

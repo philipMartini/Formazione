@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+        
+<!--     Posso istanziare bean anche utilizzando una classe che ha metodi factory statici in grado di restituire
+ istanze dei bean come ad esempio....	 -->
+	<bean id="ordine" class="org.filippo.formazione.BeanFactory" factory-method="getOrdineService"></bean>
+	<bean id="prodotto" class="org.filippo.formazione.BeanFactory" factory-method="getProdottoService"></bean>
+        
+        
+ </beans>

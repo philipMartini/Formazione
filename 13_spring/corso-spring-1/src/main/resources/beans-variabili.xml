@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+       
+	<bean id="ordine" class="org.filippo.formazione.OrdineService">
+		<!-- name è il dato membro da inizializzare e ref è ID del bean da iniettare -->
+		<property name="prodottoService" ref="prodotto"></property>
+	
+	</bean>
+	<bean id="prodotto" class="org.filippo.formazione.ProdottoService"></bean>
+	
+	<bean id="cliente" class="org.filippo.formazione.ClienteService">
+		<property name="helloMessage" value="Hello Client!"></property>
+	
+	</bean>
+        
+        
+ </beans>

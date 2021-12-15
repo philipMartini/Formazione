@@ -1,0 +1,16 @@
+default-build lifecycle:
+  1)validate
+  2) compile
+  3) test
+  4) package
+  5) verify
+  6) install 
+  7) deploy (to maven central or other repo)
+
+
+Clean lifecycle:
+  1) clean
+
+Site lifecycle:
+  1)Site (genera la docs)
+  2) site deploy
